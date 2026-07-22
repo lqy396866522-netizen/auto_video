@@ -41,12 +41,12 @@ description: >
 
 3. 请用户回复序号或标题，**不要**直接进入阶段 2
 
-### 阶段 2 — 生成 10 段 Prompt 并落盘
+### 阶段 2 — 生成 N 段 Prompt 并落盘
 
 用户选定选题后：
 
 1. 阅读 `e:\Auto_douyin\douyin-kepu-flow\references\prompt-template.md`
-2. 生成 `prompts.json`（**10 段 × 6 秒 = 60 秒**，含 `style_prefix` + `narration_zh` + `visual_prompt_en`，画幅 **16:9**）
+2. 生成 `prompts.json`（**N 段 × 6 秒**，常见 8–12 段，含 `style_prefix` + `narration_zh` + `visual_prompt_en`，画幅 **16:9**）
 3. **写入文件**：
    - `e:\Auto_douyin\douyin-kepu-flow\prompts\{slug}\prompts.json`（含 `narration_script` 整段旁白字段）
    - `e:\Auto_douyin\douyin-kepu-flow\prompts\{slug}\editing_guide.md`（旁白时间轴）
@@ -59,29 +59,37 @@ cd e:\Auto_douyin
 .\.venv\Scripts\python.exe douyin-kepu-flow\content\generate_prompts.py render-guide --file douyin-kepu-flow\prompts\{slug}\prompts.json
 ```
 
-`narration_script` 规则：将 10 段 `narration_zh` 首尾相接成一段连续口播文案（无时间轴），写入 JSON 的 `narration_script` 字段，并同步生成 `narration_script.txt`。
+`narration_script` 规则：将 N 段 `narration_zh` 首尾相接成一段连续口播文案（无时间轴），写入 JSON 的 `narration_script` 字段，并同步生成 `narration_script.txt`。
 
-5. 向用户展示 10 段摘要，询问：「是否开始提交到 Google Flow？」
+5. 向用户展示 N 段摘要，询问：「是否开始提交到 Google Flow？」
 
-### 阶段 3 — Playwright 批量提交
+### 阶段 3 — 提交 + 监听 + 720p 下载
 
-用户确认后执行：
-
-**仅提交 prompt（推荐，写入→点创建→清空，循环 10 次）：**
+用户确认后执行（**默认推荐**，直到全部下载完才结束）：
 
 ```powershell
 cd e:\Auto_douyin
+powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -WatchAndDownload
+```
+
+- 段数 **N = prompts.json 的 segments 长度**（不写死 10）
+- 下载目录：`I:\{中文 topic}\`（topic 来自 prompts.json，非法字符自动清理）
+- 文件名：`01.mp4` … `{N:02d}.mp4`
+- 失败段跳过并在 `batch_report.json` 标注，其余继续
+
+**仅提交（调试）：**
+
+```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -SubmitOnly
 ```
 
-**完整模式（每段等待生成并下载）：**
+**旧版串行模式（每段等生成再下一段）：**
 
 ```powershell
-cd e:\Auto_douyin
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json"
 ```
 
-完成后读取并汇报成功/失败段数。
+完成后读取 `batch_report.json` 汇报成功/失败段数。
 
 ## Google Flow 固定配置
 
@@ -183,7 +191,7 @@ Flow 生成片段后，用独立 Skill **`auto-douyin-jianying-compose`** 自动
 ```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 `
   -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" `
-  -VideoDir "{slug}"
+  -VideoDir "I:\{中文topic}"
 ```
 
 斜杠：`/auto-douyin-jianying-compose`。导出成片仍建议手动确认。

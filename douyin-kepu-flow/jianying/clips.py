@@ -1,28 +1,26 @@
-"""Scan folder for 10 segment mp4 files ordered 01-10."""
+"""Scan folder for segment mp4 files ordered by index in filename."""
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-REQUIRED_COUNT = 10
-
 _PATTERNS = [
-    re.compile(r"seg[-_]?(\d{1,2})", re.I),
-    re.compile(r"(?:^|[-_.])(\d{1,2})(?:[-_.]|$)", re.I),
+    re.compile(r"seg[-_]?(\d{1,3})", re.I),
+    re.compile(r"(?:^|[-_.])(\d{1,3})(?:[-_.]|$)", re.I),
 ]
 
 
-def extract_segment_index(path: Path) -> int | None:
+def extract_segment_index(path: Path, *, max_index: int = 999) -> int | None:
     name = path.stem
     for pat in _PATTERNS:
         for m in pat.findall(name):
             idx = int(m)
-            if 1 <= idx <= REQUIRED_COUNT:
+            if 1 <= idx <= max_index:
                 return idx
     return None
 
 
-def collect_segments(video_dir: Path) -> list[Path]:
+def collect_segments(video_dir: Path, *, expected_count: int | None = None) -> list[Path]:
     if not video_dir.is_dir():
         raise FileNotFoundError(f"目录不存在: {video_dir}")
 
@@ -38,7 +36,12 @@ def collect_segments(video_dir: Path) -> list[Path]:
         else:
             found[idx] = mp4.resolve()
 
-    missing = [i for i in range(1, REQUIRED_COUNT + 1) if i not in found]
+    if expected_count is None:
+        expected_count = max(found.keys()) if found else 0
+    if expected_count <= 0:
+        raise ValueError(f"在 {video_dir} 未找到任何带序号的 mp4")
+
+    missing = [i for i in range(1, expected_count + 1) if i not in found]
     errors: list[str] = []
     if missing:
         errors.append(f"缺少序号: {', '.join(f'{i:02d}' for i in missing)}")
@@ -47,8 +50,8 @@ def collect_segments(video_dir: Path) -> list[Path]:
     if errors:
         hint = "\n".join(f"  - {e}" for e in errors)
         raise ValueError(
-            f"在 {video_dir} 未找到完整 01-10 片段（当前 {len(found)}/{REQUIRED_COUNT}）:\n{hint}\n"
+            f"在 {video_dir} 未找到完整 01-{expected_count:02d} 片段（当前 {len(found)}/{expected_count}）:\n{hint}\n"
             f"提示: 文件名需含 seg-01 或 01 等序号"
         )
 
-    return [found[i] for i in range(1, REQUIRED_COUNT + 1)]
+    return [found[i] for i in range(1, expected_count + 1)]

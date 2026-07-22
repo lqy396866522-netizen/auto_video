@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from playwright.sync_api import Page
+from playwright.sync_api import Locator, Page
 
 from .common import click_first_matching, is_visible
 from .navigate import is_video_ready
@@ -20,6 +20,7 @@ class SegmentResult:
     file: str | None = None
     error: str | None = None
     attempts: int = 1
+    tile_id: str | None = None
 
 
 @dataclass
@@ -27,7 +28,8 @@ class BatchReport:
     topic: str
     slug: str
     download_dir: str
-    started_at: str
+    segment_count: int = 0
+    started_at: str = ""
     finished_at: str | None = None
     segments: list[SegmentResult] = field(default_factory=list)
 
@@ -36,6 +38,7 @@ class BatchReport:
             "topic": self.topic,
             "slug": self.slug,
             "download_dir": self.download_dir,
+            "segment_count": self.segment_count,
             "started_at": self.started_at,
             "finished_at": self.finished_at,
             "segments": [asdict(s) for s in self.segments],
@@ -62,6 +65,43 @@ def download_latest_video(page: Page, dest: Path) -> None:
     download.save_as(dest)
 
 
+def download_tile_720p(page: Page, tile: Locator, dest: Path) -> None:
+    """对单个 tile：hover → 三点 → 下载 → 720p。"""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tile.scroll_into_view_if_needed()
+    tile.hover()
+    page.wait_for_timeout(500)
+
+    more_btn = tile.locator("button").filter(
+        has=page.locator("i.google-symbols", has_text="more_vert")
+    )
+    if more_btn.count() == 0:
+        more_btn = tile.locator("button").filter(has=page.locator("i", has_text="more_vert"))
+    if not is_visible(more_btn.first, 2500):
+        raise RuntimeError("未找到三点更多按钮（more_vert）")
+
+    more_btn.first.click(force=True)
+    page.wait_for_timeout(400)
+
+    download_item = page.get_by_role("menuitem").filter(has_text=re.compile(r"下载|Download", re.I))
+    if not is_visible(download_item.first, 4000):
+        raise RuntimeError("未找到「下载」菜单项")
+    download_item.first.hover()
+    page.wait_for_timeout(500)
+
+    item_720 = page.get_by_role("menuitem").filter(has_text=re.compile(r"720\s*p", re.I))
+    if not is_visible(item_720.first, 4000):
+        raise RuntimeError("未找到 720p 下载选项")
+
+    with page.expect_download(timeout=120000) as dl_info:
+        item_720.first.click(force=True)
+    download = dl_info.value
+    suggested = download.suggested_filename or dest.name
+    if not dest.suffix and "." in suggested:
+        dest = dest.with_suffix(Path(suggested).suffix or ".mp4")
+    download.save_as(dest)
+
+
 def try_download_via_video_src(page: Page, dest: Path) -> bool:
     if not is_video_ready(page):
         return False
@@ -78,6 +118,23 @@ def try_download_via_video_src(page: Page, dest: Path) -> bool:
     return dest.exists() and dest.stat().st_size > 0
 
 
+def try_download_tile_via_video_src(tile: Locator, dest: Path) -> bool:
+    video = tile.locator("video[src]")
+    if video.count() == 0:
+        return False
+    src = video.first.get_attribute("src") or ""
+    if not src.startswith("http"):
+        if src.startswith("/"):
+            src = f"https://labs.google{src}"
+        else:
+            return False
+    import urllib.request
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    urllib.request.urlretrieve(src, dest)  # noqa: S310
+    return dest.exists() and dest.stat().st_size > 0
+
+
 def save_segment_video(page: Page, dest: Path) -> None:
     try:
         download_latest_video(page, dest)
@@ -87,6 +144,17 @@ def save_segment_video(page: Page, dest: Path) -> None:
     if try_download_via_video_src(page, dest):
         return
     raise RuntimeError("下载失败：既无下载按钮也无法读取 video src")
+
+
+def save_tile_video(page: Page, tile: Locator, dest: Path) -> None:
+    try:
+        download_tile_720p(page, tile, dest)
+        return
+    except Exception:
+        pass
+    if try_download_tile_via_video_src(tile, dest):
+        return
+    raise RuntimeError("下载失败：720p 菜单与 video src 均不可用")
 
 
 def write_batch_report(report: BatchReport, path: Path) -> None:

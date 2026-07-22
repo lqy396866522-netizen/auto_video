@@ -49,17 +49,18 @@ Get-ChildItem (Join-Path $BundleSrc "*.yaml") | ForEach-Object {
 }
 Write-Host "[OK] Bundles -> $BundleDest"
 
-# 2. Copy skills to ~/.hermes/skills/
-foreach ($SkillName in $SkillNames) {
-    $SkillDest = Join-Path $HermesHome "skills\$SkillName"
-    New-Item -ItemType Directory -Force -Path $SkillDest | Out-Null
-    Write-RepoFile (Join-Path $SkillsSrc "$SkillName\SKILL.md") (Join-Path $SkillDest "SKILL.md")
-    Write-RepoFile (Join-Path $SkillsSrc "$SkillName\skill.json") (Join-Path $SkillDest "skill.json")
-    Write-Host "[OK] Skill -> $SkillDest"
-}
-
-# 3. Register external_dirs（优先从仓库直接加载，便于就地修改）
 $ExternalDir = ($SkillsSrc -replace '\\', '/')
+
+# 2. 仅使用 external_dirs 加载 skills（避免与 ~/.hermes/skills/ 副本重名冲突）
+#    若存在旧版本地副本，删除以免 skill_view 报 collision
+foreach ($SkillName in $SkillNames) {
+    $LocalCopy = Join-Path $HermesHome "skills\$SkillName"
+    if (Test-Path $LocalCopy) {
+        Remove-Item -Recurse -Force $LocalCopy
+        Write-Host "[OK] Removed duplicate local skill (use external_dirs): $LocalCopy"
+    }
+}
+Write-Host "[OK] Skills source -> $ExternalDir (external_dirs only, no local copy)"
 if (Test-Path $ConfigPath) {
     $config = Get-Content $ConfigPath -Raw -Encoding UTF8
     if ($config -match [regex]::Escape($ExternalDir)) {

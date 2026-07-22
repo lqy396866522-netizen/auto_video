@@ -3,7 +3,8 @@ param(
     [string]$PromptsFile,
 
     [switch]$RequireLogin,
-    [switch]$SubmitOnly
+    [switch]$SubmitOnly,
+    [switch]$WatchAndDownload
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,6 +26,9 @@ if ($RequireLogin) {
 }
 if ($SubmitOnly) {
     $pyArgs += "--submit-only"
+}
+if ($WatchAndDownload) {
+    $pyArgs += "--watch-and-download"
 }
 
 python -m flow.run_batch @pyArgs

@@ -54,3 +54,32 @@ page.locator("button").filter(has=page.locator("i.google-symbols", has_text="arr
 ## 登录
 
 默认 `--require-login` 未传时跳过登录检测。若打开 Google 账号页，可传 `--require-login` 等待人工登录。
+
+## 项目页视频网格（tile）
+
+| 状态 | 定位 |
+|------|------|
+| 任意 tile | `[data-tile-id="fe_id_..."]` |
+| **生成中** | 卡片内 `.sc-40f16b33-7` 含 `\d+%`；或模糊层 `sc-784d6f75-0 cFXNwK` 且无 `video[src]` |
+| **已完成** | 卡片内 `sc-e731e35e-0` + `video[src*="getMediaUrlRedirect"]` |
+| **失败** | `.sc-101009f9-1` 文案 **失败** |
+
+DOM 顺序：**最新提交的 tile 在最前**。提交前 snapshot baseline，只跟踪新增的 N 个 tile。
+
+## 下载菜单（720p）
+
+已完成 tile 需先 **hover** 卡片，再点 `more_vert` 三点按钮（悬停时才渲染）。
+
+| 步骤 | 定位 |
+|------|------|
+| 三点菜单 | tile 内 `button` + `i.google-symbols` 文案 `more_vert` |
+| 下载 | `[role="menuitem"]` 含 **下载** / `download` 图标 |
+| 720p | hover「下载」后，`[role="menuitem"]` 匹配 `/720\s*p/i`（如 **720p (原始尺寸)**） |
+
+## `--watch-and-download` 模式
+
+1. `N = len(prompts.json.segments)`
+2. baseline snapshot → 快速 submit N 段 → 每段捕获新 `data-tile-id`
+3. 轮询直到 N 段终态（完成/失败）
+4. 已完成段：hover → 三点 → 下载 → 720p → 保存 `I:\{中文topic}\{index:02d}.mp4`
+5. 写 `batch_report.json` 后结束

@@ -70,7 +70,17 @@ Skill 文件位置：
 
 ### 5. 批量生成（示例）
 
-**仅提交 10 段 prompt（写入 → 点创建 → 清空，不等待下载）：**
+**提交 + 监听 + 720p 下载（推荐，直到全部下完才结束）：**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `
+  -PromptsFile "douyin-kepu-flow\prompts\example-bank-lending\prompts.json" `
+  -WatchAndDownload
+```
+
+下载目录默认 `I:\{中文 topic}\`，文件 `01.mp4`…`{N:02d}.mp4`（N = segments 数量）。
+
+**仅提交 prompt（调试）：**
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `

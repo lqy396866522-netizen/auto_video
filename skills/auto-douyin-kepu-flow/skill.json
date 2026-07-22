@@ -14,7 +14,7 @@
         "e:\\Auto_douyin\\douyin-kepu-flow\\run_batch.ps1",
         "-PromptsFile",
         "douyin-kepu-flow\\prompts\\example-bank-lending\\prompts.json",
-        "-SubmitOnly"
+        "-WatchAndDownload"
       ],
       "cwd": "e:\\Auto_douyin"
     }

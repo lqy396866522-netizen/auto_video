@@ -107,7 +107,10 @@ def compose(
         started_at=datetime.now(timezone.utc).isoformat(),
     )
 
-    clips = collect_segments(video_dir)
+    clips = collect_segments(
+        video_dir,
+        expected_count=len(data.get("segments") or []) or None,
+    )
     report.clips = [p.name for p in clips]
 
     if dry_run:
