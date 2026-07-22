@@ -1,0 +1,70 @@
+{
+  "topic": "为什么自助餐吃不垮老板",
+  "slug": "buffet-profit-secret",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "几十块钱随便吃的自助餐，老板为什么不亏钱？",
+      "visual_prompt_en": "A person standing at a buffet entrance looking confused, holding a 50-yuan bill in one hand and an empty plate in the other. Above them floats a large question mark icon. Behind them, a warm inviting buffet restaurant entrance with food steam rising. Chinese text label on a simple sign: 「自助餐 ¥69/人」."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "秘密不在菜好不好吃，而在于整个餐厅的精心布局。",
+      "visual_prompt_en": "Top-down floor plan view of a buffet restaurant transforming from a blurred mystery into a clear strategic layout. Arrows and dotted lines showing customer flow paths. Different food stations highlighted with colored zones. A magnifying glass icon revealing the word 「布局」 in Chinese below."
+    },
+    {
+      "index": 3,
+      "duration_sec": 6,
+      "narration_zh": "第一招：动线设计。贵的菜放在最深处，你走到之前就被填饱了。",
+      "visual_prompt_en": "A side-view cross section of a buffet line. At the entrance: large trays of fried rice, noodles, and bread with a person piling their plate high. Far at the back: small platters of shrimp and steak nearly out of reach. A dashed path line shows the journey. Chinese labels: 「入口」 at front, 「贵价区」 at the far end."
+    },
+    {
+      "index": 4,
+      "duration_sec": 6,
+      "narration_zh": "第二招：感官饱和。油炸高糖摆在最显眼处，三盘就腻了。",
+      "visual_prompt_en": "A buffet counter seen from customer eye level. Golden fried chicken and glossy glazed desserts dominate the foreground under warm spotlighting. Behind them, steamed vegetables and plain salads sit dimly lit. A speech bubble from the customer's head shows a stomach icon filling up rapidly with three checkmarks. Chinese sign: 「今日推荐」."
+    },
+    {
+      "index": 5,
+      "duration_sec": 6,
+      "narration_zh": "但这些只是前菜——真正的利润密码藏在食材成本里。",
+      "visual_prompt_en": "A dramatic scene transition: the buffet layout fades into the background as a large pie chart rises in the center. The chart shows two slices — a big one labeled 「食材成本 35%」 and the remaining slice 「利润与运营 65%」 in Chinese. A key icon unlocks the chart, revealing the hidden numbers behind the pie."
+    },
+    {
+      "index": 6,
+      "duration_sec": 6,
+      "narration_zh": "自助餐食材成本只占售价的三四成，每一分钱都算到极致。",
+      "visual_prompt_en": "A calculator and a shopping cart icon side by side with animated numbers flowing between them. Three icons in a row: a wholesale warehouse, a fixed menu checklist, and a chef hat with a line through it (meaning fewer chefs). Bar chart comparing buffet cost structure vs traditional restaurant. Chinese subtitle: 「批量采购 → 固定菜单 → 少厨师」."
+    },
+    {
+      "index": 7,
+      "duration_sec": 6,
+      "narration_zh": "当然，遇到专吃海鲜牛排的大胃王，老板也会头疼。",
+      "visual_prompt_en": "A humorous scene: a giant friendly character with a superhero cape labeled 「大胃王」 standing at a seafood station, holding a mountain of lobster and steak on a tiny plate. A small worried restaurant manager character peeking from behind a curtain, sweat drop on forehead, holding a calculator showing rising costs."
+    },
+    {
+      "index": 8,
+      "duration_sec": 6,
+      "narration_zh": "所以你会看到：寿司盘子故意很小、牛排档口永远在排队——全是设计好的。",
+      "visual_prompt_en": "A split-screen comparison. Left: tiny sushi plates on a conveyor belt, each holding just one piece, with a small plate icon and a ruler measurement. Right: a long queue of people at a steak carving station with a clock showing slow rotation. Connecting arrows reveal a blueprint grid underneath, labeled 「行为设计」 in Chinese."
+    },
+    {
+      "index": 9,
+      "duration_sec": 6,
+      "narration_zh": "自助餐赚的不是限制你吃的钱，而是让你「以为吃饱了」的钱。",
+      "visual_prompt_en": "A human brain icon with two thought bubbles. Left bubble: a person seeing a small pile of expensive seafood looking unsatisfied. Right bubble: the same person surrounded by cheap filling carbs looking happy and patting a full belly. A balance scale tips toward the right side. Chinese title at top: 「心理饱腹感」."
+    },
+    {
+      "index": 10,
+      "duration_sec": 6,
+      "narration_zh": "下次吃自助餐：第一轮拿贵的不拿饱的，小盘子多走少堆——这才是正确打法。",
+      "visual_prompt_en": "A confident character holding a small plate with premium items — shrimp, salmon sashimi, grilled meat — walking past fried rice and noodles toward the seafood section. A small checklist floats beside them with green checkmarks: 「先贵后廉」「小盘多走」「不堆不抢」 in Chinese. Bright, encouraging closing frame with soft beige background."
+    }
+  ],
+  "narration_script": "几十块钱随便吃的自助餐，老板为什么不亏钱？秘密不在菜好不好吃，而在于整个餐厅的精心布局。第一招：动线设计。贵的菜放在最深处，你走到之前就被填饱了。第二招：感官饱和。油炸高糖摆在最显眼处，三盘就腻了。但这些只是前菜——真正的利润密码藏在食材成本里。自助餐食材成本只占售价的三四成，每一分钱都算到极致。当然，遇到专吃海鲜牛排的大胃王，老板也会头疼。所以你会看到：寿司盘子故意很小、牛排档口永远在排队——全是设计好的。自助餐赚的不是限制你吃的钱，而是让你「以为吃饱了」的钱。下次吃自助餐：第一轮拿贵的不拿饱的，小盘子多走少堆——这才是正确打法。"
+}

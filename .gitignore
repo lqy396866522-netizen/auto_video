@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.env
+
+# IDE / local
+.cursor/
+
+# Debug artifacts
+debug-*.log
+*.png
+
+# Test / runtime outputs
+test-data/
+douyin-kepu-flow/prompts/**/batch_report.json
+
+# OS
+.DS_Store
+Thumbs.db

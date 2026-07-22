@@ -1,0 +1,22 @@
+name: auto-douyin-jianying-compose
+description: 抖音科普剪映 UI 自动合成 — 导入 10 段 mp4、字幕、活力科普配音。
+skills:
+  - auto-douyin-jianying-compose
+instruction: |
+  【重要】项目已在 e:\Auto_douyin，禁止说「没有现成脚本」。
+
+  斜杠命令：/auto-douyin-jianying-compose
+  完整 SKILL：e:\Auto_douyin\skills\auto-douyin-jianying-compose\SKILL.md
+
+  前置：VideoDir 内必须有 10 个 mp4（文件名含 01-10）；prompts.json 含 narration_script。
+
+  1. 先校验（推荐）：
+     cd e:\Auto_douyin
+     powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -VideoDir "{slug}" -DryRun
+
+  2. 用户确认片段齐全后全自动：
+     powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -VideoDir "$env:USERPROFILE\Desktop\douyin-videos\{slug}"
+
+  3. 读 jianying_compose_report.json 汇报；导出成片仍建议用户手动点「导出」。
+
+  与 auto-douyin-kepu-flow 独立：Flow 负责 prompt 提交，本 skill 负责剪映合成。

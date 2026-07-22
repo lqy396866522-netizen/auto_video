@@ -1,0 +1,21 @@
+{
+  "topic": "免费 Wi-Fi 为什么不能随便连",
+  "slug": "free-wifi-danger",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "你蹭的免费 Wi-Fi，可能正在把你手机里的密码、照片和聊天记录打包发给黑客。",
+      "visual_prompt_en": "A person sitting in a cafe happily connecting their smartphone to a bright Wi-Fi icon, but behind the Wi-Fi symbol lurks a dark shadowy hacker figure holding a data-siphoning net, warning exclamation signs glowing red, split lighting warm cafe vs dark digital threat."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "这叫「中间人攻击」——你以为连的是咖啡店 Wi-Fi，实际连的是黑客的笔记本电脑。",
+      "visual_prompt_en": "Split screen diagram: left side shows a phone connecting to a labeled cafe router with a green checkmark, right side reveals the real connection going to a hacker laptop in the middle, acting as invisible bridge. Password, photo, and chat bubble icons flowing from phone through hacker into the internet, data interception visualized with dotted red lines."
+    }
+  ]
+}

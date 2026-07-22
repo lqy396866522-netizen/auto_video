@@ -1,0 +1,58 @@
+{
+  "topic": "为什么你刷短视频停不下来？",
+  "slug": "duanshipin-ting-bu-xia-lai",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "narration_script": "你有没有过这种体验——说好只刷五分钟，一抬头，两个小时过去了。这真的不是你没有自制力。短视频平台用了一套精密的「奖励机制」，把你牢牢焊在了屏幕上——而且它的设计者，正是全世界最懂人类大脑的工程师。核心秘密叫「可变奖励」。你在下滑的时候，永远不知道下一条是什么——可能是无聊的广告，也可能是一个让你爆笑的段子。这个不确定性，正是让你停不下来的关键。这跟赌场里的老虎机，用的是完全相同的机制。再往深挖：为什么你会对「不知道」上瘾？因为大脑在期待奖励的瞬间，会释放大量的多巴胺。关键来了——奖励真的到来时，多巴胺反而下降了。真正让你嗨的，永远是对「下一秒」的期待。你每一次下滑，都是一次「再来一局」的拉扯。平台还有一个绝招：「无阻力设计」。没有菜单、没有选择、没有结束信号——看完一条自动播下一条。你的大脑根本来不及下达「停止」指令，下一个刺激已经进来了。知道自己上瘾还不够。真正重要的是：你的每一次下滑，都在被算法精确记录、分析、喂养。它比你更清楚什么东西能让你多停留 0.3 秒。你以为是你在刷视频？其实是视频在「刷」你。下次当你下意识想要下滑时，停三秒。就三秒。这三秒，是你在夺回自己大脑的控制权。",
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "你有没有过这种体验——说好只刷五分钟，一抬头，两个小时过去了。",
+      "visual_prompt_en": "A person sitting on a couch holding a phone, a clock on the wall shows 10:00, then the clock spins rapidly and stops at 12:00. The character looks at the clock with a shocked expression, question mark floating above head. Simplified Chinese label on clock: 两小时后."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "这真的不是你没有自制力。短视频平台用了一套精密的「奖励机制」把你焊在屏幕上。",
+      "visual_prompt_en": "The phone screen expands into a diagram showing a brain connected to a reward system icon. Gears and mechanisms inside the brain, with arrows pointing to a trophy icon and a dopamine molecule icon. Simplified Chinese label: 奖励机制."
+    },
+    {
+      "index": 3,
+      "duration_sec": 6,
+      "narration_zh": "核心秘密叫「可变奖励」。你永远不知道下一条是什么——无聊广告还是爆笑段子。",
+      "visual_prompt_en": "A smartphone screen split into two paths: one side shows a boring ad billboard with a sad emoji, the other side shows colorful confetti and a laughing emoji. A finger hovering over the screen with a dice icon between the two paths. Simplified Chinese label: 可变奖励."
+    },
+    {
+      "index": 4,
+      "duration_sec": 6,
+      "narration_zh": "这跟赌场里的老虎机用的是完全相同的机制——不确定性就是让你上瘾的关键。",
+      "visual_prompt_en": "A side-by-side comparison: left side shows a slot machine with spinning reels, right side shows a phone with a video feed. An equals sign between them. Reward symbols (cherries, coins, hearts) float from both into a brain. Simplified Chinese label: 相同机制."
+    },
+    {
+      "index": 5,
+      "duration_sec": 6,
+      "narration_zh": "大脑在期待奖励的瞬间释放大量多巴胺。但奖励真的来了，多巴胺反而下降了。",
+      "visual_prompt_en": "A stylized brain cross-section with a dopamine meter. Before reward: the meter spikes high with bright glowing particles. After reward: the meter drops down, particles fade. An arrow showing the downward curve. Simplified Chinese labels: 期待时 and 获得后."
+    },
+    {
+      "index": 6,
+      "duration_sec": 6,
+      "narration_zh": "真正让你嗨的永远是对「下一秒」的期待。你每一次下滑都是一次「再来一局」。",
+      "visual_prompt_en": "A infinite loop diagram: a hand swipes up on a phone, an excited face appears, then the hand swipes again, and again, forming a circular motion. A progress bar that never reaches the end. Simplified Chinese label: 无限循环."
+    },
+    {
+      "index": 7,
+      "duration_sec": 6,
+      "narration_zh": "平台还有一个绝招：没有结束信号。看完一条自动播下一条，大脑来不及喊停。",
+      "visual_prompt_en": "A conveyor belt of video thumbnails moving continuously from right to left into a phone screen. No stop button visible anywhere. A tiny brain character trying to raise a stop sign but getting swept along by the flow. Simplified Chinese label: 自动连播."
+    },
+    {
+      "index": 8,
+      "duration_sec": 6,
+      "narration_zh": "你以为是你在刷视频？其实是视频在「刷」你。停三秒，夺回你大脑的控制权。",
+      "visual_prompt_en": "A role reversal scene: a giant phone screen on the left with algorithm eyes scanning a small person on the right. The person puts the phone face-down on a table. A stopwatch shows 3 seconds counting down. The person smiles with a calm expression. Simplified Chinese label: 停三秒."
+    }
+  ]
+}

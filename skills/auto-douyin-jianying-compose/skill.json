@@ -1,0 +1,55 @@
+{
+  "name": "auto-douyin-jianying-compose",
+  "display_name": "抖音科普 · 剪映自动合成",
+  "version": "1.0.0",
+  "description": "剪映 UI 自动合成：10段mp4导入拼接、narration_script字幕、活力科普配音。触发词：剪映合成、自动剪辑配音。斜杠：/auto-douyin-jianying-compose",
+  "instructions_file": "SKILL.md",
+  "entrypoints": {
+    "windows": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "e:\\Auto_douyin\\douyin-kepu-flow\\run_jianying_compose.ps1",
+        "-PromptsFile",
+        "douyin-kepu-flow\\prompts\\buffet-profit-secret\\prompts.json",
+        "-VideoDir",
+        "buffet-profit-secret",
+        "-DryRun"
+      ],
+      "cwd": "e:\\Auto_douyin"
+    }
+  },
+  "inputs": {
+    "prompts_file": {
+      "type": "string",
+      "required": true,
+      "description": "prompts.json 路径，相对 e:\\Auto_douyin"
+    },
+    "video_dir": {
+      "type": "string",
+      "required": true,
+      "description": "10 段 mp4 目录，绝对路径或 Desktop\\douyin-videos 下的 slug"
+    },
+    "dry_run": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "true=仅校验片段不操作剪映"
+    }
+  },
+  "dependencies": ["pywinauto", "python"],
+  "tags": [
+    "douyin",
+    "kepu",
+    "科普",
+    "jianying",
+    "剪映",
+    "compose",
+    "subtitle",
+    "tts",
+    "配音",
+    "auto-douyin"
+  ]
+}

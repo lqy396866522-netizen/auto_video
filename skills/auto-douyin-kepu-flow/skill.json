@@ -1,0 +1,50 @@
+{
+  "name": "auto-douyin-kepu-flow",
+  "display_name": "抖音一分钟科普 · Google Flow",
+  "version": "1.0.0",
+  "description": "抖音一分钟科普：选题生成、10段6秒Flow prompt（16:9）、Playwright批量提交。触发词：科普选题、一分钟抖音、Flow视频、批量生成。斜杠：/auto-douyin-kepu-flow",
+  "instructions_file": "SKILL.md",
+  "entrypoints": {
+    "windows": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "e:\\Auto_douyin\\douyin-kepu-flow\\run_batch.ps1",
+        "-PromptsFile",
+        "douyin-kepu-flow\\prompts\\example-bank-lending\\prompts.json",
+        "-SubmitOnly"
+      ],
+      "cwd": "e:\\Auto_douyin"
+    }
+  },
+  "inputs": {
+    "prompts_file": {
+      "type": "string",
+      "required": false,
+      "description": "prompts.json 路径，相对 e:\\Auto_douyin"
+    },
+    "submit_only": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "true=仅提交prompt；false=等待生成并下载"
+    }
+  },
+  "dependencies": ["playwright", "python"],
+  "tags": [
+    "douyin",
+    "kepu",
+    "科普",
+    "flow",
+    "google-flow",
+    "veo",
+    "video",
+    "playwright",
+    "一分钟",
+    "选题",
+    "prompt",
+    "auto-douyin"
+  ]
+}

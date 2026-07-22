@@ -1,0 +1,32 @@
+name: auto-douyin-kepu-flow
+description: 抖音一分钟科普 — 选题、10段Flow prompt（16:9）、Playwright批量提交Google Flow。
+skills:
+  - auto-douyin-kepu-flow
+instruction: |
+  【重要】项目已在 e:\Auto_douyin，禁止说「没有现成脚本」。
+
+  斜杠命令：/auto-douyin-kepu-flow
+  完整 SKILL：e:\Auto_douyin\skills\auto-douyin-kepu-flow\SKILL.md
+
+  三阶段（严格按顺序，等用户确认后再进入下一阶段）：
+
+  1. 选题：读 topic-rules.md，输出 5–8 条，等用户选序号
+  2. Prompt：读 prompt-template.md，生成 **10 段**、**16:9**，写入
+     e:\Auto_douyin\douyin-kepu-flow\prompts\{slug}\prompts.json
+     及 editing_guide.md，等用户确认
+  3. 批处理（用户确认后）：
+     cd e:\Auto_douyin
+     powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -SubmitOnly
+
+  Flow 固定项目页（已登录）：https://labs.google/fx/zh/tools/flow/project/147a46cc-6217-4b1f-a162-e5bcfcd96b9b
+  输入框 placeholder：您希望创作什么内容？
+  点 arrow_forward「创建」按钮提交；使用页面默认模型。
+
+  完整模式（含下载）去掉 -SubmitOnly。
+  首次登录：douyin-kepu-flow\run_login.ps1
+
+  阶段 4（可选，用户手动下载 10 段 mp4 后）— 剪映合成：
+  斜杠：/auto-douyin-jianying-compose
+  或执行：
+  powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -VideoDir "$env:USERPROFILE\Desktop\douyin-videos\{slug}"
+  前置：VideoDir 内 10 个 mp4（seg-01..10）；prompts.json 含 narration_script。

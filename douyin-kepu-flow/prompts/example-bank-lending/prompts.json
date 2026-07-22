@@ -1,0 +1,69 @@
+{
+  "topic": "银行为什么愿意借钱给你",
+  "slug": "example-bank-lending",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "很多人以为银行借钱给你，是在帮你。其实，银行是在做一门生意。",
+      "visual_prompt_en": "A friendly bank building icon next to a curious person holding a wallet, question marks floating above, flat vector corporate explainer style."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "银行的核心模式很简单：吸收存款，再把这些钱贷出去。",
+      "visual_prompt_en": "Money flowing from many small deposit icons into a large bank vault, then arrows pointing outward to loan documents, clean motion graphics layout."
+    },
+    {
+      "index": 3,
+      "duration_sec": 6,
+      "narration_zh": "存款利息低，贷款利息高，中间的差价就是银行的利润来源。",
+      "visual_prompt_en": "Two labeled bars showing low deposit rate and higher loan rate, with a highlighted gap labeled as profit, simple geometric chart animation."
+    },
+    {
+      "index": 4,
+      "duration_sec": 6,
+      "narration_zh": "所以银行不是慈善机构，而是靠资金流转来赚钱的金融机构。",
+      "visual_prompt_en": "Bank character in suit professionally shaking hands with a customer, coins cycling in a circular arrow loop around them."
+    },
+    {
+      "index": 5,
+      "duration_sec": 6,
+      "narration_zh": "但银行敢把钱借给你，前提是它相信你能还得上。",
+      "visual_prompt_en": "A checklist document with credit score gauge, income icon, and identity card, green checkmarks appearing one by one."
+    },
+    {
+      "index": 6,
+      "duration_sec": 6,
+      "narration_zh": "这就是为什么贷款要审核收入、征信、负债和还款能力。",
+      "visual_prompt_en": "Magnifying glass scanning a profile file showing salary chart, credit history timeline, and debt ratio meter."
+    },
+    {
+      "index": 7,
+      "duration_sec": 6,
+      "narration_zh": "银行还会要求抵押或担保，用来降低自己承担的风险。",
+      "visual_prompt_en": "A house and car icons placed under a protective shield labeled collateral, risk meter dropping from red to green."
+    },
+    {
+      "index": 8,
+      "duration_sec": 6,
+      "narration_zh": "如果借款人违约，银行可以通过法律程序收回抵押物。",
+      "visual_prompt_en": "A contract document with a gavel icon, arrow from defaulted loan back to collateral asset recovery, calm legal explainer tone."
+    },
+    {
+      "index": 9,
+      "duration_sec": 6,
+      "narration_zh": "从银行视角看，每一笔贷款都是一次经过计算的风险投资。",
+      "visual_prompt_en": "Balanced scale with risk on one side and expected return on the other, calculator and probability chart in background."
+    },
+    {
+      "index": 10,
+      "duration_sec": 6,
+      "narration_zh": "所以银行愿意借钱给你，是因为这笔交易对它有利。理解这一点，你就能更理性地看待贷款。",
+      "visual_prompt_en": "Bank manager and customer signing loan agreement with mutual benefit icons, then person holding contract as a practical tool with lightbulb insight, calm closing frame, soft beige background."
+    }
+  ]
+}

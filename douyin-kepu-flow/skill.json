@@ -1,0 +1,16 @@
+{
+  "name": "auto-douyin-kepu-flow",
+  "description": "抖音一分钟科普：选题生成、10段视频 prompt（16:9）、Google Flow 批量生成",
+  "version": "1.0.0",
+  "entry": "SKILL.md",
+  "commands": [
+    {
+      "name": "auto-douyin-kepu",
+      "description": "列出科普选题或生成选定选题的分段 prompt"
+    }
+  ],
+  "scripts": {
+    "batch": "douyin-kepu-flow/run_batch.ps1",
+    "login": "douyin-kepu-flow/run_login.ps1"
+  }
+}
