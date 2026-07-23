@@ -15,8 +15,47 @@ $SkillNames = @(
 
 function Convert-RepoPaths {
     param([string]$Content)
-    # 部署时把文档里的占位盘符统一替换为当前仓库根目录
-    return ($Content -replace '(?i)e:\\Auto_douyin', $RepoRoot)
+    # 部署时把文档占位路径替换为当前机器上的仓库根目录（clone 在哪都行）
+    $escaped = [regex]::Escape($RepoRoot)
+    $text = $Content -replace '__REPO_ROOT__', $RepoRoot
+    $text = $text -replace '(?i)([eEgG]):\\Auto_douyin\\auto_video', $RepoRoot
+    $text = $text -replace '(?i)([eEgG]):\\Auto_douyin(?![/\\]auto_video)', $RepoRoot
+    return $text
+}
+
+function Update-ExternalDirs {
+    param([string]$ConfigPath, [string]$ExternalDir)
+    if (-not (Test-Path $ConfigPath)) {
+        Write-Host "[WARN] Config not found: $ConfigPath — add external_dirs manually"
+        return
+    }
+    $config = Get-Content $ConfigPath -Raw -Encoding UTF8
+    $externalDirAlt = $ExternalDir -replace '/', '\\'
+
+    # 移除任意位置的旧 Auto_douyin skills 路径（含误追加到文件末尾的条目）
+    $config = $config -replace '(?m)^\s*-\s*[eEgG]:[/\\]Auto_douyin(?:[/\\]auto_video)?[/\\]skills\s*\r?\n', ''
+
+    $alreadyPresent = ($config -match [regex]::Escape($ExternalDir)) -or ($config -match [regex]::Escape($externalDirAlt))
+    if ($alreadyPresent) {
+        $presentPattern = '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*\r?\n(?:\s*-\s*.+\r?\n)*?\s*-\s*' + [regex]::Escape($ExternalDir) + '\s*\r?\n\s*template_vars:)'
+        if ($config -match $presentPattern) {
+            Write-Host "[OK] external_dirs already contains skills path"
+            [System.IO.File]::WriteAllText($ConfigPath, $config, [System.Text.UTF8Encoding]::new($false))
+            return
+        }
+    }
+    if ($config -match '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*)\[\]') {
+        $config = $config -replace '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*)\[\]', "`${1}`n  - $ExternalDir"
+        Write-Host "[OK] Added external_dirs: $ExternalDir"
+    }
+    elseif ($config -match '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*\r?\n(?:\s*-\s*.+\r?\n)*?)(\s*template_vars:)') {
+        $config = $config -replace '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*\r?\n(?:\s*-\s*.+\r?\n)*?)(\s*template_vars:)', "`$1  - $ExternalDir`n`$2"
+        Write-Host "[OK] Added external_dirs: $ExternalDir"
+    }
+    else {
+        Write-Host "[WARN] Manually add to $ConfigPath under skills.external_dirs: $ExternalDir"
+    }
+    [System.IO.File]::WriteAllText($ConfigPath, $config, [System.Text.UTF8Encoding]::new($false))
 }
 
 function Write-RepoFile {
@@ -61,28 +100,7 @@ foreach ($SkillName in $SkillNames) {
     }
 }
 Write-Host "[OK] Skills source -> $ExternalDir (external_dirs only, no local copy)"
-if (Test-Path $ConfigPath) {
-    $config = Get-Content $ConfigPath -Raw -Encoding UTF8
-    if ($config -match [regex]::Escape($ExternalDir)) {
-        Write-Host "[OK] external_dirs already contains $ExternalDir"
-    }
-    elseif ($config -match '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*)\[\]') {
-        $config = $config -replace '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*)\[\]', "`${1}`n  - $ExternalDir"
-        [System.IO.File]::WriteAllText($ConfigPath, $config, [System.Text.UTF8Encoding]::new($false))
-        Write-Host "[OK] Added external_dirs: $ExternalDir"
-    }
-    elseif ($config -match '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*\r?\n)((?:\s*-\s*.+\r?\n)+)') {
-        $config = $config -replace '(?ms)(skills:\s*\r?\n\s*external_dirs:\s*\r?\n(?:\s*-\s*.+\r?\n)+)', "`$1  - $ExternalDir`n"
-        [System.IO.File]::WriteAllText($ConfigPath, $config, [System.Text.UTF8Encoding]::new($false))
-        Write-Host "[OK] Added external_dirs: $ExternalDir"
-    }
-    else {
-        Write-Host "[WARN] Manually add to $ConfigPath under skills.external_dirs: $ExternalDir"
-    }
-}
-else {
-    Write-Host "[WARN] Config not found: $ConfigPath — add external_dirs manually"
-}
+Update-ExternalDirs -ConfigPath $ConfigPath -ExternalDir $ExternalDir
 
 # 4. Reload bundles
 if (Get-Command hermes -ErrorAction SilentlyContinue) {

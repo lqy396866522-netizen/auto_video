@@ -39,10 +39,10 @@ def open_flow(page: Page, flow_url: str) -> None:
     page.wait_for_timeout(2000)
 
 
-def submit_prompt(page: Page, prompt_text: str) -> None:
+def submit_prompt(page: Page, prompt_text: str, *, create_timeout_ms: int | None = None) -> None:
     """写入 prompt → 等待「创建」可点 → 点击提交（使用页面默认模型/参数）。"""
     fill_prompt_text(page, prompt_text)
-    click_create_submit(page)
+    click_create_submit(page, timeout_ms=create_timeout_ms)
     page.wait_for_timeout(800)
 
 

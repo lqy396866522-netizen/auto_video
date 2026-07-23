@@ -1,35 +1,25 @@
 name: auto-douyin-kepu-flow
-description: 抖音一分钟科普 — 选题、N段Flow prompt（16:9）、Playwright提交+监听+720p下载。
+description: 抖音一分钟科普 — 选题、N段Flow prompt（16:9）、Playwright批量提交+监听百分比+720p下载。
 skills:
   - auto-douyin-kepu-flow
 instruction: |
-  【重要】项目已在 e:\Auto_douyin，禁止说「没有现成脚本」。
+  【重要】项目根目录：__REPO_ROOT__（clone 路径任意）。禁止说「没有现成脚本」。
 
   斜杠命令：/auto-douyin-kepu-flow
-  完整 SKILL：e:\Auto_douyin\skills\auto-douyin-kepu-flow\SKILL.md
+  完整 SKILL：__REPO_ROOT__/skills/auto-douyin-kepu-flow/SKILL.md
 
   三阶段（严格按顺序，等用户确认后再进入下一阶段）：
 
   1. 选题：读 topic-rules.md，输出 5–8 条，等用户选序号
   2. Prompt：读 prompt-template.md，生成 **N 段**（常见 8–12）、**16:9**，写入
-     e:\Auto_douyin\douyin-kepu-flow\prompts\{slug}\prompts.json
-     及 editing_guide.md，等用户确认
+     __REPO_ROOT__/douyin-kepu-flow/prompts/{slug}/prompts.json
+     及 editing_guide.md、narration_script.txt，等用户确认
   3. 批处理+监听+下载（用户确认后，直到全部下载完才结束）：
-     cd e:\Auto_douyin
-     powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -WatchAndDownload
+     cd __REPO_ROOT__
+     powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json"
 
-  N = prompts.json segments 长度。下载到 I:\{中文topic}\，文件 01.mp4…{N:02d}.mp4。
-  失败段跳过并写入 batch_report.json。
+  N = len(prompts.json.segments)。下载目录见 .env 的 FLOW_DOWNLOAD_DIR（默认 D:\douyin-videos\{topic}\）。
+  监听：tile 仍显示百分比则继续等；百分比消失且 video 有 src 才 720p 下载。
+  新机器：copy .env.example .env 后运行 hermes-skill-bundles\deploy.ps1
 
-  Flow 固定项目页（已登录）：https://labs.google/fx/zh/tools/flow/project/147a46cc-6217-4b1f-a162-e5bcfcd96b9b
-  输入框 placeholder：您希望创作什么内容？
-  点 arrow_forward「创建」按钮提交；使用页面默认模型。
-
-  仅提交调试：加 -SubmitOnly。旧版串行下载：不加任何 switch。
-  首次登录：douyin-kepu-flow\run_login.ps1
-
-  阶段 4（可选）— 剪映合成：
-  斜杠：/auto-douyin-jianying-compose
-  或执行：
-  powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" -VideoDir "I:\{中文topic}"
-  前置：VideoDir 内 N 个 mp4（01…{N}）；prompts.json 含 narration_script。
+  阶段 4（可选）— 剪映合成：/auto-douyin-jianying-compose

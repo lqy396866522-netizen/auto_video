@@ -12,20 +12,20 @@ from playwright.sync_api import Page, sync_playwright
 
 from .common import (
     DEFAULT_CDP_PORT,
+    DEFAULT_DOWNLOAD_DIR_TEMPLATE,
     DEFAULT_FLOW_URL,
-    DEFAULT_PROFILE,
     connect_browser,
     ensure_browser,
     env_int,
     env_str,
     get_work_page,
     load_dotenv_if_present,
+    resolve_browser_profile,
 )
 from .download import (
     BatchReport,
     SegmentResult,
     build_flow_prompt,
-    save_segment_video,
     save_tile_video,
     write_batch_report,
 )
@@ -34,7 +34,6 @@ from .navigate import (
     open_flow,
     prepare_next_segment,
     submit_prompt,
-    wait_for_generation_complete,
     wait_for_manual_login,
 )
 from .tiles import (
@@ -58,6 +57,12 @@ def load_prompts(path: Path) -> dict:
     if "segments" not in data or not data["segments"]:
         raise ValueError("prompts.json 缺少 segments")
     return data
+
+
+def resolve_topic(data: dict, prompts_file: Path) -> str:
+    """下载目录名：优先 topic，其次 title，最后 slug。"""
+    slug = data.get("slug") or prompts_file.parent.name
+    return data.get("topic") or data.get("title") or slug
 
 
 def resolve_download_dir(template: str, topic: str) -> Path:
@@ -84,6 +89,78 @@ def _poll_interval_sec() -> float:
     return env_int("FLOW_TILE_POLL_INTERVAL_SEC", 3)
 
 
+def _create_button_timeout_ms() -> int:
+    return env_int("FLOW_CREATE_BUTTON_TIMEOUT_SEC", 120) * 1000
+
+
+def _new_tile_timeout_sec() -> float:
+    return float(env_int("FLOW_NEW_TILE_TIMEOUT_SEC", 90))
+
+
+def submit_all_segments(
+    page: Page,
+    *,
+    segments: list[dict],
+    style_prefix: str,
+    known_ids: set[str],
+    results: dict[int, SegmentResult],
+    index_to_tile: dict[int, str],
+) -> None:
+    """按 prompts.json 段数连续提交 N 段（Flow 支持并行排队，不等单段生成完）。"""
+    create_timeout_ms = _create_button_timeout_ms()
+    tile_timeout_sec = _new_tile_timeout_sec()
+    segment_count = len(segments)
+
+    print(f"[INFO] 批量提交 {segment_count} 段 prompt…")
+
+    for i, seg in enumerate(segments):
+        idx = int(seg.get("index", i + 1))
+        prompt = build_flow_prompt(style_prefix, seg["visual_prompt_en"])
+        try:
+            submit_prompt(page, prompt, create_timeout_ms=create_timeout_ms)
+            prepare_next_segment(page)
+            tile_id = wait_for_new_tile(page, known_ids, timeout_sec=tile_timeout_sec)
+            known_ids.add(tile_id)
+            index_to_tile[idx] = tile_id
+            print(f"[OK] seg-{idx:02d} 已提交 ({i + 1}/{segment_count}) -> tile {tile_id}")
+        except Exception as exc:
+            results[idx].status = "failed"
+            results[idx].error = str(exc)
+            print(f"[WARN] seg-{idx:02d} 提交失败: {exc}", file=sys.stderr)
+            try:
+                prepare_next_segment(page)
+            except Exception:
+                pass
+
+
+def run_submit_only(
+    page: Page,
+    *,
+    segments: list[dict],
+    style_prefix: str,
+    report: BatchReport,
+    report_path: Path,
+) -> None:
+    """调试：仅提交 N 段 prompt，不监听/下载。"""
+    create_timeout_ms = _create_button_timeout_ms()
+    indices = _segment_indices(segments)
+
+    for i, seg in enumerate(segments):
+        idx = int(seg.get("index", i + 1))
+        prompt = build_flow_prompt(style_prefix, seg["visual_prompt_en"])
+        result = SegmentResult(index=idx, status="failed")
+        try:
+            submit_prompt(page, prompt, create_timeout_ms=create_timeout_ms)
+            prepare_next_segment(page)
+            result.status = "success"
+            print(f"[OK] seg-{idx:02d} 已提交 ({i + 1}/{len(segments)})")
+        except Exception as exc:
+            result.error = str(exc)
+            print(f"[WARN] seg-{idx:02d}: {exc}", file=sys.stderr)
+        report.segments.append(result)
+        write_batch_report(report, report_path)
+
+
 def run_watch_and_download(
     page: Page,
     *,
@@ -106,20 +183,19 @@ def run_watch_and_download(
     known_ids = snapshot_tile_ids(page)
     print(f"[INFO] baseline tiles: {len(known_ids)}")
 
-    for seg in segments:
-        idx = int(seg.get("index", 0))
-        prompt = build_flow_prompt(style_prefix, seg["visual_prompt_en"])
-        submit_prompt(page, prompt)
-        prepare_next_segment(page)
-        try:
-            tile_id = wait_for_new_tile(page, known_ids, timeout_sec=90)
-            known_ids.add(tile_id)
-            index_to_tile[idx] = tile_id
-            print(f"[OK] seg-{idx:02d} 已提交 -> tile {tile_id}")
-        except TimeoutError as exc:
-            results[idx].status = "failed"
-            results[idx].error = f"未捕获新 tile: {exc}"
-            print(f"[WARN] seg-{idx:02d} {exc}", file=sys.stderr)
+    submit_all_segments(
+        page,
+        segments=segments,
+        style_prefix=style_prefix,
+        known_ids=known_ids,
+        results=results,
+        index_to_tile=index_to_tile,
+    )
+
+    submitted = len(index_to_tile)
+    print(f"[INFO] 提交完成: {submitted}/{segment_count} 段已绑定 tile，开始监听并下载…")
+    report.segments = [results[i] for i in indices]
+    write_batch_report(report, report_path)
 
     watch_deadline = time.monotonic() + _watch_timeout_sec(segment_count)
     poll_sec = _poll_interval_sec()
@@ -213,25 +289,22 @@ def run_batch(
     *,
     skip_login_wait: bool = True,
     submit_only: bool = False,
-    watch_and_download: bool = False,
 ) -> int:
     root = project_root()
     load_dotenv_if_present(root)
 
     data = load_prompts(prompts_file)
     slug = data.get("slug") or prompts_file.parent.name
-    topic = data.get("topic", slug)
+    topic = resolve_topic(data, prompts_file)
     style_prefix = data.get("style_prefix", "")
     segments = data["segments"]
     segment_count = len(segments)
 
     flow_url = env_str("FLOW_URL", DEFAULT_FLOW_URL)
     cdp_port = env_int("FLOW_CDP_PORT", DEFAULT_CDP_PORT)
-    profile = Path(env_str("FLOW_BROWSER_PROFILE", str(DEFAULT_PROFILE)))
-    timeout_sec = env_int("FLOW_GENERATION_TIMEOUT_SEC", 300)
-    retries = env_int("FLOW_GENERATION_RETRIES", 2)
+    profile = resolve_browser_profile()
 
-    download_dir = resolve_download_dir(r"I:\{topic}", topic)
+    download_dir = resolve_download_dir(DEFAULT_DOWNLOAD_DIR_TEMPLATE, topic)
 
     report = BatchReport(
         topic=topic,
@@ -241,6 +314,8 @@ def run_batch(
         started_at=datetime.now(timezone.utc).isoformat(),
     )
     report_path = download_dir / "batch_report.json"
+
+    print(f"[INFO] slug={slug} 段数={segment_count} 下载目录={download_dir}")
 
     ensure_browser(cdp_port, profile)
 
@@ -253,7 +328,15 @@ def run_batch(
         if not skip_login_wait and not is_logged_in(page):
             wait_for_manual_login(page, flow_url)
 
-        if watch_and_download:
+        if submit_only:
+            run_submit_only(
+                page,
+                segments=segments,
+                style_prefix=style_prefix,
+                report=report,
+                report_path=report_path,
+            )
+        else:
             run_watch_and_download(
                 page,
                 segments=segments,
@@ -262,41 +345,6 @@ def run_batch(
                 report=report,
                 report_path=report_path,
             )
-        else:
-            for seg in segments:
-                idx = int(seg.get("index", 0))
-                dest = download_dir / format_segment_filename(idx, _max_segment_index(segments))
-                prompt = build_flow_prompt(style_prefix, seg["visual_prompt_en"])
-                result = SegmentResult(index=idx, status="failed")
-
-                for attempt in range(1, retries + 2):
-                    result.attempts = attempt
-                    try:
-                        if attempt > 1:
-                            prepare_next_segment(page)
-                        submit_prompt(page, prompt)
-                        if submit_only:
-                            prepare_next_segment(page)
-                            result.status = "success"
-                            result.file = None
-                            print(f"[OK] seg-{idx:02d} 已提交")
-                            break
-                        wait_for_generation_complete(page, timeout_sec=timeout_sec)
-                        save_segment_video(page, dest)
-                        result.status = "success"
-                        result.file = str(dest)
-                        result.error = None
-                        print(f"[OK] seg-{idx:02d} -> {dest}")
-                        prepare_next_segment(page)
-                        break
-                    except Exception as exc:
-                        result.error = str(exc)
-                        print(f"[RETRY {attempt}] seg-{idx:02d}: {exc}", file=sys.stderr)
-
-                if result.status != "success":
-                    print(f"[FAIL] seg-{idx:02d}", file=sys.stderr)
-                report.segments.append(result)
-                write_batch_report(report, report_path)
 
     report.finished_at = datetime.now(timezone.utc).isoformat()
     write_batch_report(report, report_path)
@@ -319,26 +367,22 @@ def main() -> int:
     parser.add_argument(
         "--submit-only",
         action="store_true",
-        help="仅提交 prompt 并清空输入框，不等待生成/下载",
+        help="仅提交 N 段 prompt（N=len(segments)），不监听/下载",
     )
     parser.add_argument(
         "--watch-and-download",
         action="store_true",
-        help="批量提交 N 段后持续监听网格，720p 下载到 I:\\{中文topic}",
+        help="（默认行为）批量提交 N 段后监听网格并 720p 下载",
     )
     args = parser.parse_args()
     if not args.prompts_file.is_file():
         print(f"文件不存在: {args.prompts_file}", file=sys.stderr)
-        return 1
-    if args.submit_only and args.watch_and_download:
-        print("不能同时使用 --submit-only 与 --watch-and-download", file=sys.stderr)
         return 1
     skip_login = not args.require_login
     return run_batch(
         args.prompts_file,
         skip_login_wait=skip_login,
         submit_only=args.submit_only,
-        watch_and_download=args.watch_and_download,
     )
 
 

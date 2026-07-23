@@ -43,13 +43,15 @@ page.locator("button").filter(has=page.locator("i.google-symbols", has_text="arr
 
 ## 批处理循环
 
-每段 prompt：
+N = `len(prompts.json.segments)`。每段 prompt：
 
 1. 写入 prompt
-2. 等待「创建」按钮可点击
+2. 等待「创建」按钮可点击（默认最长 120s，`.env` 可配 `FLOW_CREATE_BUTTON_TIMEOUT_SEC`）
 3. 点击「创建」
-4. （`--submit-only`）清空输入框 → 下一段
-5. （默认 full 模式）等待生成完成 → 下载 → 清空输入框 → 下一段
+4. 清空输入框 → 立即提交下一段（**不等单段生成完成**，Flow 支持并行排队）
+5. 全部 N 段提交后，轮询 tile 网格 → 720p 下载
+
+（`--submit-only`）仅执行步骤 1–4，不监听/下载。
 
 ## 登录
 
@@ -81,5 +83,5 @@ DOM 顺序：**最新提交的 tile 在最前**。提交前 snapshot baseline，
 1. `N = len(prompts.json.segments)`
 2. baseline snapshot → 快速 submit N 段 → 每段捕获新 `data-tile-id`
 3. 轮询直到 N 段终态（完成/失败）
-4. 已完成段：hover → 三点 → 下载 → 720p → 保存 `I:\{中文topic}\{index:02d}.mp4`
+4. 已完成段：hover → 三点 → 下载 → 720p → 保存 `D:\douyin-videos\{中文topic}\{index:02d}.mp4`
 5. 写 `batch_report.json` 后结束

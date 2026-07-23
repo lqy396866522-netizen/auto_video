@@ -4,7 +4,7 @@ description: >
   剪映 UI 自动合成：扫描 01-10 段 mp4 → 导入拼接 → 粘贴 narration_script → 活力科普配音 → 等自动拆句。
   当用户提到「剪映合成」「自动剪辑配音」「导入剪映」「Jianying compose」时立即加载本 skill。
   斜杠命令：/auto-douyin-jianying-compose
-  项目根目录：e:\Auto_douyin
+  项目根目录：e:\Auto_douyin\auto_video
 ---
 
 # 抖音一分钟科普 · 剪映自动合成（Hermes Skill）
@@ -25,10 +25,10 @@ description: >
 
 | 用途 | 路径 |
 |------|------|
-| 仓库根 | `e:\Auto_douyin` |
-| 剪映脚本 | `e:\Auto_douyin\douyin-kepu-flow\run_jianying_compose.ps1` |
-| UI 模块 | `e:\Auto_douyin\douyin-kepu-flow\jianying\` |
-| 选择器文档 | `e:\Auto_douyin\douyin-kepu-flow\references\jianying-selectors.md` |
+| 仓库根 | `e:\Auto_douyin\auto_video` |
+| 剪映脚本 | `e:\Auto_douyin\auto_video\douyin-kepu-flow\run_jianying_compose.ps1` |
+| UI 模块 | `e:\Auto_douyin\auto_video\douyin-kepu-flow\jianying\` |
+| 选择器文档 | `e:\Auto_douyin\auto_video\douyin-kepu-flow\references\jianying-selectors.md` |
 
 ## 执行流程
 
@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.p
 `-VideoDir` 支持：
 
 - 绝对路径：`D:\videos\buffet-profit-secret`
-- 文件夹名：自动查找 `Desktop\douyin-videos\{name}`
+- 文件夹名：自动查找 `D:\douyin-videos\{name}`（其次 Desktop\douyin-videos）
 
 ### 2. 全自动合成
 
@@ -53,7 +53,7 @@ powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.p
 cd e:\Auto_douyin
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 `
   -PromptsFile "douyin-kepu-flow\prompts\{slug}\prompts.json" `
-  -VideoDir "$env:USERPROFILE\Desktop\douyin-videos\{slug}"
+  -VideoDir "D:\douyin-videos\{slug}"
 ```
 
 完成后读取 `{VideoDir}\jianying_compose_report.json` 汇报各步耗时与成败。

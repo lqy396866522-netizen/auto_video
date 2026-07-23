@@ -40,11 +40,13 @@ def snapshot_tile_ids(page: Page) -> set[str]:
 
 
 def ordered_tile_ids(page: Page) -> list[str]:
-    """DOM 顺序（最新在前）。"""
+    """DOM 顺序（最新在前），去重 data-tile-id。"""
     ordered: list[str] = []
+    seen: set[str] = set()
     for el in page.locator("[data-tile-id]").all():
         tid = el.get_attribute("data-tile-id")
-        if tid:
+        if tid and tid not in seen:
+            seen.add(tid)
             ordered.append(tid)
     return ordered
 
@@ -55,6 +57,13 @@ def get_tile_locator(page: Page, tile_id: str) -> Locator:
 
 def get_tile_state(tile: Locator) -> TileState:
     resolved = TileState.UNKNOWN
+    page = tile.page
+    try:
+        tile.scroll_into_view_if_needed(timeout=3000)
+        tile.hover(timeout=2000)
+        page.wait_for_timeout(400)
+    except Exception:
+        pass
     try:
         has_pct = False
         pct = tile.locator(".sc-40f16b33-7")
@@ -69,8 +78,11 @@ def get_tile_state(tile: Locator) -> TileState:
 
         if has_pct:
             resolved = TileState.GENERATING
-        elif tile.locator("video[src]").count() > 0 and is_visible(tile.locator("video[src]").first, 400):
-            src = tile.locator("video[src]").first.get_attribute("src") or ""
+        elif tile.locator("video").count() > 0:
+            src = tile.locator("video").first.evaluate(
+                "el => el.currentSrc || el.getAttribute('src') || ''"
+            )
+            src = str(src or "")
             if src and ("getMediaUrlRedirect" in src or src.startswith("http")):
                 resolved = TileState.COMPLETE
         elif is_visible(tile.locator(".sc-784d6f75-0.cFXNwK"), 400):

@@ -1,0 +1,51 @@
+{
+  "slug": "payment-pain",
+  "title": "存钱罐原理：为什么支付宝花得比现金快三倍",
+  "aspect_ratio": "16:9",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "narration_script": "这不是错觉，行为经济学里有个概念叫“付款痛感”。花现金的时候，你亲眼看着钞票从钱包里一张张抽出来，触觉、视觉、甚至听觉——多重感官同时在提醒你“钱没了”，大脑的痛感区域被激活。刷卡的时候痛感就弱了一半，因为你看不到实物，只是一个数字在变。但到了移动支付时代，扫码付款连0.3秒都不到，指纹一按，叮一下——你的大脑还没来得及反应“我在花钱”，交易已经完成了。科学家做过fMRI实验：现金支付时大脑的脑岛——专门处理痛觉和负面情绪的区域——会明显亮起；但用手机支付时，脑岛几乎不活动。更扎心的是，这不是bug，是设计好的“温柔陷阱”——支付公司每减少一步操作、每节省0.1秒，都是在降低你的付款痛感，让你花得更多。所以，下次打开支付宝之前，问问自己：是你的需求在驱动你，还是零痛感支付在替你“决定”？",
+  "segments": [
+    {
+      "index": 2,
+      "narration_zh": "这不是错觉，行为经济学里有个概念叫“付款痛感”。",
+      "visual_prompt_en": "A friendly professor character stands beside a whiteboard. On the whiteboard, the Chinese characters '付款痛感' appear in bold, with a small brain icon next to it with a lightning bolt symbol. The professor gestures toward the board. A stack of coins on a desk nearby has a subtle throbbing pain effect. Clean vector style.",
+      "duration": 6
+    },
+    {
+      "index": 3,
+      "narration_zh": "花现金的时候，你亲眼看着钞票从钱包里一张张抽出来，触觉、视觉、甚至听觉——多重感官同时在提醒你“钱没了”，大脑的痛感区域被激活。",
+      "visual_prompt_en": "Close-up animated sequence of hands pulling paper bills out of a wallet one by one. A brain icon in the corner lights up red with each bill removed. Sensory icons (touch hand, eye, ear) appear around the scene. The wallet visibly gets thinner. Warm color palette.",
+      "duration": 6
+    },
+    {
+      "index": 4,
+      "narration_zh": "刷卡的时候痛感就弱了一半，因为你看不到实物，只是一个数字在变。",
+      "visual_prompt_en": "A hand swiping a credit card through a POS terminal. On the terminal screen, numbers decrease from 1000 to 800 in calm blue. Brain icon in corner glows yellow at half-brightness. A visual pain meter bar drops from high to medium. Shopping cart items in background.",
+      "duration": 6
+    },
+    {
+      "index": 5,
+      "narration_zh": "但到了移动支付时代，扫码付款连0.3秒都不到，指纹一按，叮一下——你的大脑还没来得及反应“我在花钱”，交易已经完成了。",
+      "visual_prompt_en": "Smartphone screen close-up showing a scan-to-pay interface. A finger taps the fingerprint sensor. Rapid animation: sparkle visual effect, payment success checkmark in 0.3 seconds. Brain icon grayed out with sleeping face. Stopwatch shows 00:00.3. Pain meter near zero.",
+      "duration": 6
+    },
+    {
+      "index": 6,
+      "narration_zh": "科学家做过fMRI实验：现金支付时大脑的脑岛——专门处理痛觉和负面情绪的区域——会明显亮起；但用手机支付时，脑岛几乎不活动。",
+      "visual_prompt_en": "Scientific visualization: two brain MRI scans side by side on a monitor. Left scan labeled '现金支付' with insula region highlighted in bright red-orange. Right scan labeled '手机支付' with insula nearly dark. Scientist in lab coat points at difference. Clean white lab environment.",
+      "duration": 6
+    },
+    {
+      "index": 7,
+      "narration_zh": "更扎心的是，这不是bug，是设计好的“温柔陷阱”——支付公司每减少一步操作、每节省0.1秒，都是在降低你的付款痛感，让你花得更多。",
+      "visual_prompt_en": "Metaphorical scene: a friendly-looking smartphone character with a gentle smile, holding an umbrella over a person happily spending while floating in a bubble. The bubble is labeled '温柔陷阱'. Background shows a flowchart: '现金→刷卡→扫码→刷脸' with shrinking time (5s→3s→1s→0.5s) and rising spend graph. Pastel pink and purple.",
+      "duration": 6
+    },
+    {
+      "index": 8,
+      "narration_zh": "所以，下次打开支付宝之前，问问自己：是你的需求在驱动你，还是零痛感支付在替你“决定”？",
+      "visual_prompt_en": "A person standing at a crossroads, one path labeled '需求' with a brain icon, the other labeled '冲动' with a smartphone QR icon. Person has hand on chin thinking. A piggy bank glows warmly on the '需求' path. Thought bubble shows '谁在替我做决定？'. Warm golden hour lighting, inspirational tone.",
+      "duration": 6
+    }
+  ]
+}

@@ -71,7 +71,7 @@
 
 ```powershell
 -VideoDir "D:\my-clips\buffet"           # 绝对路径
--VideoDir "buffet-profit-secret"        # → Desktop\douyin-videos\{name}
+-VideoDir "buffet-profit-secret"        # → D:\douyin-videos\{name}
 ```
 
 ## 故障排查

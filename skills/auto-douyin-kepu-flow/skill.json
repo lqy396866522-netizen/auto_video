@@ -1,8 +1,8 @@
 {
   "name": "auto-douyin-kepu-flow",
   "display_name": "抖音一分钟科普 · Google Flow",
-  "version": "1.0.0",
-  "description": "抖音一分钟科普：选题生成、10段6秒Flow prompt（16:9）、Playwright批量提交。触发词：科普选题、一分钟抖音、Flow视频、批量生成。斜杠：/auto-douyin-kepu-flow",
+  "version": "1.1.0",
+  "description": "抖音一分钟科普：选题生成、N段6秒Flow prompt（16:9）、Playwright批量提交+监听+720p下载。斜杠：/auto-douyin-kepu-flow",
   "instructions_file": "SKILL.md",
   "entrypoints": {
     "windows": {
@@ -11,25 +11,26 @@
         "-ExecutionPolicy",
         "Bypass",
         "-File",
-        "e:\\Auto_douyin\\douyin-kepu-flow\\run_batch.ps1",
+        "..\\..\\douyin-kepu-flow\\hermes-launch.ps1",
+        "-Script",
+        "run_batch.ps1",
         "-PromptsFile",
-        "douyin-kepu-flow\\prompts\\example-bank-lending\\prompts.json",
-        "-WatchAndDownload"
+        "douyin-kepu-flow\\prompts\\example-bank-lending\\prompts.json"
       ],
-      "cwd": "e:\\Auto_douyin"
+      "cwd": "."
     }
   },
   "inputs": {
     "prompts_file": {
       "type": "string",
       "required": false,
-      "description": "prompts.json 路径，相对 e:\\Auto_douyin"
+      "description": "prompts.json 路径，相对仓库根（auto_video）"
     },
     "submit_only": {
       "type": "boolean",
       "required": false,
-      "default": true,
-      "description": "true=仅提交prompt；false=等待生成并下载"
+      "default": false,
+      "description": "true=仅提交 prompt；false=监听百分比后下载"
     }
   },
   "dependencies": ["playwright", "python"],

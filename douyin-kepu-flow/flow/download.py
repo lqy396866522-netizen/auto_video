@@ -102,6 +102,12 @@ def download_tile_720p(page: Page, tile: Locator, dest: Path) -> None:
     download.save_as(dest)
 
 
+def _ensure_valid_video_file(dest: Path, *, min_bytes: int = 1024) -> None:
+    size = dest.stat().st_size if dest.is_file() else 0
+    if size < min_bytes:
+        raise RuntimeError(f"下载文件过小或不存在: {dest} ({size} bytes)")
+
+
 def try_download_via_video_src(page: Page, dest: Path) -> bool:
     if not is_video_ready(page):
         return False
@@ -111,50 +117,65 @@ def try_download_via_video_src(page: Page, dest: Path) -> bool:
     )
     if not src or not str(src).startswith("http"):
         return False
-    import urllib.request
-
     dest.parent.mkdir(parents=True, exist_ok=True)
-    urllib.request.urlretrieve(src, dest)  # noqa: S310 — user-initiated Flow asset
-    return dest.exists() and dest.stat().st_size > 0
+    response = page.request.get(str(src), timeout=120_000)
+    if not response.ok:
+        return False
+    body = response.body()
+    if len(body) < 1024:
+        return False
+    dest.write_bytes(body)
+    return dest.exists() and dest.stat().st_size >= 1024
 
 
-def try_download_tile_via_video_src(tile: Locator, dest: Path) -> bool:
-    video = tile.locator("video[src]")
+def try_download_tile_via_video_src(page: Page, tile: Locator, dest: Path) -> bool:
+    video = tile.locator("video")
     if video.count() == 0:
         return False
-    src = video.first.get_attribute("src") or ""
+    src = video.first.evaluate("el => el.currentSrc || el.getAttribute('src') || ''")
+    src = str(src or "")
     if not src.startswith("http"):
         if src.startswith("/"):
             src = f"https://labs.google{src}"
         else:
             return False
-    import urllib.request
-
     dest.parent.mkdir(parents=True, exist_ok=True)
-    urllib.request.urlretrieve(src, dest)  # noqa: S310
-    return dest.exists() and dest.stat().st_size > 0
+    response = page.request.get(src, timeout=120_000)
+    if not response.ok:
+        return False
+    body = response.body()
+    if len(body) < 1024:
+        return False
+    dest.write_bytes(body)
+    return dest.exists() and dest.stat().st_size >= 1024
 
 
 def save_segment_video(page: Page, dest: Path) -> None:
+    errors: list[str] = []
     try:
         download_latest_video(page, dest)
+        _ensure_valid_video_file(dest)
         return
-    except Exception:
-        pass
+    except Exception as exc:
+        errors.append(str(exc))
     if try_download_via_video_src(page, dest):
+        _ensure_valid_video_file(dest)
         return
-    raise RuntimeError("下载失败：既无下载按钮也无法读取 video src")
+    raise RuntimeError("下载失败：" + ("; ".join(errors) if errors else "按钮与 video src 均不可用"))
 
 
 def save_tile_video(page: Page, tile: Locator, dest: Path) -> None:
+    errors: list[str] = []
     try:
         download_tile_720p(page, tile, dest)
+        _ensure_valid_video_file(dest)
         return
-    except Exception:
-        pass
-    if try_download_tile_via_video_src(tile, dest):
+    except Exception as exc:
+        errors.append(f"720p: {exc}")
+    if try_download_tile_via_video_src(page, tile, dest):
+        _ensure_valid_video_file(dest)
         return
-    raise RuntimeError("下载失败：720p 菜单与 video src 均不可用")
+    raise RuntimeError("下载失败：" + ("; ".join(errors) if errors else "720p 与 video src 均不可用"))
 
 
 def write_batch_report(report: BatchReport, path: Path) -> None:

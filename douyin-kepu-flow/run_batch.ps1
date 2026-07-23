@@ -26,8 +26,8 @@ if ($RequireLogin) {
 }
 if ($SubmitOnly) {
     $pyArgs += "--submit-only"
-}
-if ($WatchAndDownload) {
+} else {
+    # 默认：按 prompts.json 段数批量提交 + 监听 + 720p 下载
     $pyArgs += "--watch-and-download"
 }
 

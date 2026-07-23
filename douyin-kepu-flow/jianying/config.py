@@ -69,13 +69,15 @@ def resolve_video_dir(video_dir: str | Path) -> Path:
     p = Path(expand_env(str(video_dir)))
     if p.is_dir():
         return p.resolve()
-    desktop_sub = Path.home() / "Desktop" / "douyin-videos" / p.name
-    if desktop_sub.is_dir():
-        return desktop_sub.resolve()
-    desktop_direct = Path.home() / "Desktop" / p.name
-    if desktop_direct.is_dir():
-        return desktop_direct.resolve()
-    raise FileNotFoundError(
-        f"视频目录不存在: {video_dir}\n"
-        f"尝试过: {p}, {desktop_sub}, {desktop_direct}"
-    )
+    candidates = [
+        Path(r"D:\douyin-videos") / p.name,
+        Path.home() / "Desktop" / "douyin-videos" / p.name,
+        Path.home() / "Desktop" / p.name,
+    ]
+    if p.parent == Path("."):
+        candidates.insert(0, Path(r"D:\douyin-videos") / p)
+    for candidate in candidates:
+        if candidate.is_dir():
+            return candidate.resolve()
+    tried = ", ".join(str(c) for c in [p, *candidates])
+    raise FileNotFoundError(f"视频目录不存在: {video_dir}\n尝试过: {tried}")

@@ -29,7 +29,7 @@ playwright install chromium
 copy .env.example .env
 ```
 
-默认下载目录：`%USERPROFILE%\Desktop\douyin-videos\{slug}\`
+默认下载目录：`D:\douyin-videos\{slug}\`（自动创建文件夹）
 
 ### 3. 打开 Flow 项目页
 
@@ -70,17 +70,18 @@ Skill 文件位置：
 
 ### 5. 批量生成（示例）
 
-**提交 + 监听 + 720p 下载（推荐，直到全部下完才结束）：**
+**提交 + 监听 + 720p 下载（默认，直到全部下完才结束）：**
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `
-  -PromptsFile "douyin-kepu-flow\prompts\example-bank-lending\prompts.json" `
-  -WatchAndDownload
+  -PromptsFile "douyin-kepu-flow\prompts\example-bank-lending\prompts.json"
 ```
 
-下载目录默认 `I:\{中文 topic}\`，文件 `01.mp4`…`{N:02d}.mp4`（N = segments 数量）。
+段数 **N = prompts.json 的 segments 长度**，批量连续提交后统一监听下载。
 
-**仅提交 prompt（调试）：**
+下载目录默认 `D:\douyin-videos\{中文 topic}\`，文件 `01.mp4`…`{N:02d}.mp4`（N = segments 数量）。
+
+**仅提交 prompt（调试，不下载）：**
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `
@@ -88,16 +89,9 @@ powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `
   -SubmitOnly
 ```
 
-**完整模式（等待每段生成并下载）：**
-
-```powershell
-powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_batch.ps1 `
-  -PromptsFile "douyin-kepu-flow\prompts\example-bank-lending\prompts.json"
-```
-
 ### 6. 剪映自动合成
 
-手动下载 10 段 mp4 到 `Desktop\douyin-videos\{slug}\` 后：
+手动下载 10 段 mp4 到 `D:\douyin-videos\{slug}\` 后：
 
 **校验片段（不操作剪映）：**
 
@@ -113,7 +107,7 @@ powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.p
 ```powershell
 powershell -ExecutionPolicy Bypass -File douyin-kepu-flow\run_jianying_compose.ps1 `
   -PromptsFile "douyin-kepu-flow\prompts\buffet-profit-secret\prompts.json" `
-  -VideoDir "$env:USERPROFILE\Desktop\douyin-videos\buffet-profit-secret"
+  -VideoDir "D:\douyin-videos\buffet-profit-secret"
 ```
 
 Hermes 斜杠：`/auto-douyin-jianying-compose`
@@ -177,10 +171,10 @@ Flow 页面更新后，若自动化找不到按钮，请：
 |------|------|------|
 | `FLOW_URL` | 固定 Flow 项目页 URL | Flow 入口 |
 | `FLOW_CDP_PORT` | 9335 | Chromium CDP 端口 |
-| `FLOW_BROWSER_PROFILE` | ~/.hermes/flow-browser | 登录态 |
+| `FLOW_BROWSER_PROFILE` | ~/.hermes/flow-browser（当前用户 `Path.home()`） | 登录态 |
 | `FLOW_GENERATION_TIMEOUT_SEC` | 300 | 单段生成超时 |
 | `FLOW_GENERATION_RETRIES` | 2 | 失败重试次数 |
-| `FLOW_DOWNLOAD_DIR` | Desktop/douyin-videos/{topic} | 下载目录 |
+| `FLOW_DOWNLOAD_DIR` | D:/douyin-videos/{topic} | 下载目录 |
 | `JIANYING_EXE` | %LOCALAPPDATA%\JianyingPro\Apps\JianyingPro.exe | 剪映路径 |
 | `JIANYING_SPLIT_SENTENCE_TIMEOUT_SEC` | 300 | 自动拆句等待超时 |
 

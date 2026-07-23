@@ -9,13 +9,13 @@ from playwright.sync_api import sync_playwright
 from .common import (
     DEFAULT_CDP_PORT,
     DEFAULT_FLOW_URL,
-    DEFAULT_PROFILE,
     connect_browser,
     ensure_browser,
     env_int,
     env_str,
     get_work_page,
     load_dotenv_if_present,
+    resolve_browser_profile,
 )
 from .navigate import is_logged_in, open_flow, wait_for_manual_login
 
@@ -30,7 +30,7 @@ def main() -> int:
 
     flow_url = env_str("FLOW_URL", DEFAULT_FLOW_URL)
     cdp_port = env_int("FLOW_CDP_PORT", DEFAULT_CDP_PORT)
-    profile = Path(env_str("FLOW_BROWSER_PROFILE", str(DEFAULT_PROFILE)))
+    profile = resolve_browser_profile()
 
     print(f"Profile: {profile}")
     print(f"CDP 端口: {cdp_port}")

@@ -16,8 +16,18 @@ DEFAULT_FLOW_URL = (
     "https://labs.google/fx/zh/tools/flow/project/147a46cc-6217-4b1f-a162-e5bcfcd96b9b"
 )
 DEFAULT_CDP_PORT = 9335
-DEFAULT_PROFILE = Path.home() / ".hermes" / "flow-browser"
+DEFAULT_BROWSER_PROFILE = Path.home() / ".hermes" / "flow-browser"
+DEFAULT_PROFILE = DEFAULT_BROWSER_PROFILE  # backward compat
+DEFAULT_DOWNLOAD_DIR_TEMPLATE = r"D:\douyin-videos\{topic}"
 FLOW_PROMPT_PLACEHOLDER = "您希望创作什么内容？"
+
+
+def resolve_browser_profile() -> Path:
+    """浏览器登录态目录；未配置时使用当前用户 ~/.hermes/flow-browser。"""
+    raw = os.getenv("FLOW_BROWSER_PROFILE", "").strip()
+    if raw:
+        return Path(expand_env(raw))
+    return DEFAULT_BROWSER_PROFILE
 
 
 def expand_env(value: str) -> str:
@@ -152,25 +162,75 @@ def get_create_submit_button(page: Page):
     return page.get_by_role("button", name="创建").last
 
 
+def _read_editor_plaintext(editor) -> str:
+    try:
+        return (
+            editor.evaluate(
+                """el => {
+                    const walk = n => {
+                        if (!n) return '';
+                        if (n.nodeType === Node.TEXT_NODE) return n.textContent || '';
+                        return Array.from(n.childNodes).map(walk).join('');
+                    };
+                    return (el.innerText || walk(el) || '').trim();
+                }"""
+            )
+            or ""
+        ).strip()
+    except Exception:
+        return (editor.inner_text() or "").strip()
+
+
 def clear_prompt_editor(page: Page) -> None:
+    """清空 Slate 编辑器（Backspace 对 Slate 不可靠，用 Delete + execCommand 兜底）。"""
     editor = get_prompt_editor(page)
     editor.click()
-    page.keyboard.press("Control+A")
-    page.keyboard.press("Backspace")
-    page.wait_for_timeout(300)
+    page.wait_for_timeout(150)
+    for _ in range(3):
+        page.keyboard.press("Control+A")
+        page.wait_for_timeout(80)
+        page.keyboard.press("Delete")
+        page.wait_for_timeout(150)
+        if len(_read_editor_plaintext(editor)) < 15:
+            return
+    editor.evaluate(
+        """el => {
+            el.focus();
+            const sel = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('delete');
+        }"""
+    )
+    page.wait_for_timeout(200)
+    if len(_read_editor_plaintext(editor)) >= 15:
+        editor.evaluate(
+            """el => {
+                el.focus();
+                while (el.firstChild) el.removeChild(el.firstChild);
+                el.textContent = '';
+                el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'deleteContentBackward' }));
+            }"""
+        )
+        page.wait_for_timeout(200)
 
 
 def fill_prompt_text(page: Page, text: str) -> None:
+    clear_prompt_editor(page)
+    if not text:
+        return
     editor = get_prompt_editor(page)
     editor.click()
-    page.keyboard.press("Control+A")
-    page.keyboard.press("Backspace")
-    if text:
-        page.keyboard.insert_text(text)
+    page.wait_for_timeout(100)
+    page.keyboard.insert_text(text)
     page.wait_for_timeout(300)
 
 
-def wait_create_button_enabled(page: Page, *, timeout_ms: int = 15000) -> None:
+def wait_create_button_enabled(page: Page, *, timeout_ms: int | None = None) -> None:
+    if timeout_ms is None:
+        timeout_ms = env_int("FLOW_CREATE_BUTTON_TIMEOUT_SEC", 120) * 1000
     btn = get_create_submit_button(page)
     deadline = time.monotonic() + timeout_ms / 1000
     while time.monotonic() < deadline:
@@ -181,8 +241,8 @@ def wait_create_button_enabled(page: Page, *, timeout_ms: int = 15000) -> None:
     raise TimeoutError("「创建」按钮未变为可点击（aria-disabled 仍为 true）")
 
 
-def click_create_submit(page: Page) -> None:
-    wait_create_button_enabled(page)
+def click_create_submit(page: Page, *, timeout_ms: int | None = None) -> None:
+    wait_create_button_enabled(page, timeout_ms=timeout_ms)
     get_create_submit_button(page).click()
 
 
