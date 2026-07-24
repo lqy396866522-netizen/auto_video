@@ -36,6 +36,7 @@ copy .env.example .env
 脚本默认打开固定项目（已登录即可直接跑）：
 
 `https://labs.google/fx/zh/tools/flow/project/147a46cc-6217-4b1f-a162-e5bcfcd96b9b`
+<!-- https://labs.google/fx/zh/tools/flow/project/c7450c8e-568c-4f2b-92f2-87dd82a54c10 -->
 
 如需首次在自动化浏览器登录 Google：
 
