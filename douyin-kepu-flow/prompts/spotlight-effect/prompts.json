@@ -1,0 +1,58 @@
+{
+  "slug": "spotlight-effect",
+  "topic": "为什么你总是觉得别人都在看我",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "你有没有过这种体验：穿了一件新衣服出门，感觉全世界的目光都聚焦在你身上？",
+      "visual_prompt_en": "A person walking down a busy street, head slightly down, looking nervous. Around them, dozens of faceless silhouettes with magnifying glass eyes pointed at them. A bright spotlight shines down from above, isolating the person in a circle of light. Everyone else is in shadow. The person has a visible sweat drop and anxious expression."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "其实，这叫做“聚光灯效应”——你以为自己是舞台中央的主角，但其实没几个人在看你。",
+      "visual_prompt_en": "A split screen. Left: a person on a theater stage under a massive spotlight, looking terrified at an audience of thousands. Right: the same scene from above in reality - most audience seats are empty or people are looking at their phones. The spotlight shrinks dramatically. Chinese label '聚光灯效应' appears on a cinema marquee."
+    },
+    {
+      "index": 3,
+      "duration_sec": 6,
+      "narration_zh": "1999年，康奈尔大学的心理学家做了一个实验：让大学生穿一件印着过气歌手的尴尬T恤走进教室。",
+      "visual_prompt_en": "A university lecture hall. A student wearing a bright yellow T-shirt with a faded, embarrassing pop star face from the 90s walks through the door. Other students sit in rows. The T-shirt has a glowing effect. A clipboard icon shows 'Experiment: Cornell University, 1999' in Chinese. The scene has a slightly humorous, awkward energy."
+    },
+    {
+      "index": 4,
+      "duration_sec": 6,
+      "narration_zh": "穿T恤的学生估计至少有50%的人会注意到他那件尴尬的衣服。但实验结果呢？只有不到23%。",
+      "visual_prompt_en": "A bar chart animation. Left bar shows '50%' in red (what the student predicted), right bar shows '23%' in calm blue (actual result). A student character stands between the two bars, looking shocked with wide eyes. The red bar dramatically shrinks down to match the blue bar. Numbers animate. Chinese text: '你以为 vs 实际'."
+    },
+    {
+      "index": 5,
+      "duration_sec": 6,
+      "narration_zh": "为什么差距这么大？因为每个人都在忙着关注自己——别人也在想“他们是不是在看我”。",
+      "visual_prompt_en": "A circle of 5 people, each with a thought bubble above their head. Every thought bubble contains the same image: a miniature version of themselves under a spotlight. None of the thought bubbles contain other people. Everyone is looking inward. Arrows loop from each person back to their own thought bubble. Warm, slightly humorous tone."
+    },
+    {
+      "index": 6,
+      "duration_sec": 6,
+      "narration_zh": "这是进化留下的bug：远古时代，被群体注视意味着危险——你可能做错了什么，会被部落抛弃。",
+      "visual_prompt_en": "A prehistoric scene. A small tribe of early humans around a campfire. One person stands slightly apart, looking worried, with multiple pairs of eyes in the dark forest staring at them. A timeline arrow connects this ancient scene to a modern office worker feeling anxious during a presentation. Brain icon glows red in both scenes."
+    },
+    {
+      "index": 7,
+      "duration_sec": 6,
+      "narration_zh": "但在现代社会，这个警报系统误报率太高了——别人的注意力远比你想象的短暂且分散。",
+      "visual_prompt_en": "A smartphone screen showing a social media feed rapidly scrolling. A tiny person stands on top of the phone, waving frantically, but the scrolling content (photos, videos, posts) rushes past in milliseconds. An alarm bell icon keeps ringing but gets smaller and smaller. Chinese label: '注意力停留时间 < 2秒'."
+    },
+    {
+      "index": 8,
+      "duration_sec": 6,
+      "narration_zh": "所以，下次你觉得自己是焦点的时候，记住：每个人都在自己的电影里当主角，没空看你的。",
+      "visual_prompt_en": "A warm, uplifting final scene. A person walking confidently, head up, on a sidewalk. Around them, other people are each wrapped in their own small movie frame with 'Now Playing: 我自己' on each frame. The spotlight that was on our protagonist fades into warm sunlight. The person smiles. Chinese text: '你只是你人生的主角'."
+    }
+  ],
+  "narration_script": "你有没有过这种体验：穿了一件新衣服出门，感觉全世界的目光都聚焦在你身上？\n\n其实，这叫做「聚光灯效应」——你以为自己是舞台中央的主角，但其实没几个人在看你。\n\n1999 年，康奈尔大学的心理学家做了一个实验：让大学生穿一件印着过气歌手的尴尬 T 恤，走进教室。\n\n穿 T 恤的学生估计，至少有 50% 的人会注意到他那件尴尬的衣服。但实验结果呢？只有不到 23%。\n\n为什么差距这么大？因为每个人都在忙着关注自己——别人也在想：「他们是不是在看我？」\n\n这是进化留下的漏洞：远古时代，被群体注视意味着危险——你可能做错了什么，会被部落抛弃。\n\n但在现代社会，这个警报系统误报率太高了——别人的注意力，远比你想象的更短暂、更分散。\n\n所以，下次你觉得自己是焦点的时候，请记住：每个人都在自己的电影里当主角，没空看你。"
+}

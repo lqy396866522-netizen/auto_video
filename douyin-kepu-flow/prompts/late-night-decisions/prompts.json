@@ -1,0 +1,58 @@
+{
+  "slug": "late-night-decisions",
+  "topic": "为什么凌晨3点做的决定99%是错的",
+  "style_prefix": "Modern flat vector illustration,\ncorporate explainer animation style,\neducational motion graphics.\n\nStoryset style,\nManyPixels style,\nGoogle Material illustration style.\n\n2D flat design,\nclean vector artwork,\nbold black outlines,\nconsistent line thickness.\n\nFriendly professional characters,\nsimple geometric shapes.\n\nLow saturation pastel colors.\n\nSmooth motion graphics animation,\ngentle easing,\nsubtle character movement.\n\nMinimal modern environment.\n\n---\n\nChinese language requirement:\n\nAll visible text in the video must use simplified Chinese characters.\n\nUse Chinese only for:\nlabels,\ncharts,\ndocuments,\nblackboards,\nUI interfaces,\neducational annotations.\n\nDo not generate English text.\nDo not generate random symbols.\nDo not create fake unreadable text.\n\nChinese text must be clear and correctly written.\n\nIf text generation is unreliable,\nkeep the area blank or replace with simple icons.\n\n---\n\nNo:\n3D rendering,\nanime,\nPixar style,\nrealistic characters,\ncinematic lighting,\ncomplex shadows,\nrandom text,\nEnglish words.",
+  "aspect_ratio": "16:9",
+  "duration_sec_per_segment": 6,
+  "segments": [
+    {
+      "index": 1,
+      "duration_sec": 6,
+      "narration_zh": "你有没有凌晨三点冲动下单、深夜发分手消息、或者半夜突然决定辞职？醒来肠子都悔青了。",
+      "visual_prompt_en": "A person in bed, eyes wide open in the dark, holding a glowing smartphone. The screen shows three rapid-fire panels: a shopping cart with 'BUY' blinking, a chat bubble with broken heart emoji, and a resignation letter. In the morning, the same person sits up in bed, face in hands, looking horrified. A digital clock shows 03:00 then flips to 09:00."
+    },
+    {
+      "index": 2,
+      "duration_sec": 6,
+      "narration_zh": "这不是你意志力差——是你的前额叶皮质，在凌晨三点几乎彻底罢工了。",
+      "visual_prompt_en": "A cross-section of a human brain in profile, clean medical-illustration style. The prefrontal cortex area (front part) is highlighted with a glowing red outline. As a clock in the corner ticks from 21:00 to 03:00, the prefrontal cortex fades from bright red to dim gray. Chinese label: '前额叶皮质' with an arrow. The words '决策中心' cross out and become 'OFFLINE'."
+    },
+    {
+      "index": 3,
+      "duration_sec": 6,
+      "narration_zh": "前额叶是大脑的CEO——负责理性思考、控制冲动、预判后果。但它需要充足的睡眠来“充电”。",
+      "visual_prompt_en": "A friendly character representing the prefrontal cortex, wearing a tiny CEO badge and sitting at a desk with a computer showing '理性思考 / 冲动控制 / 后果预判'. The character has a battery icon on their chest. The battery drains from green (100%) to red (5%) as the clock advances. The character starts yawning and slumping over the desk."
+    },
+    {
+      "index": 4,
+      "duration_sec": 6,
+      "narration_zh": "而与此同时，你的杏仁核——大脑的情绪中心——在深夜反而格外活跃，像个失去刹车油门的跑车。",
+      "visual_prompt_en": "Same brain cross-section, now showing two regions. Prefrontal cortex: dim gray, labeled '理性 · 离线'. Amygdala (almond-shaped area deep in brain): bright pulsing red, labeled '情绪 · 全速'. A split-panel animation: left side shows a calm CEO sleeping at desk; right side shows a race car with smoking tires, no brakes, speeding on an empty highway at night."
+    },
+    {
+      "index": 5,
+      "duration_sec": 6,
+      "narration_zh": "科学家用fMRI扫描证实：熬夜后，前额叶和杏仁核之间的连接强度下降60%。理性管不住情绪了。",
+      "visual_prompt_en": "Two brain scan images side by side on a monitor. Left: '正常睡眠' - a thick bright line connecting prefrontal cortex and amygdala, labeled '连接强度 100%'. Right: '熬夜后' - the connection line becomes thin and dotted, flashing red, labeled '连接强度 40%'. Scientist character points at the dramatic difference. Chinese labels throughout."
+    },
+    {
+      "index": 6,
+      "duration_sec": 6,
+      "narration_zh": "更可怕的是，深夜的你还觉得自己特别清醒——这叫“睡眠剥夺的自我认知偏差”。",
+      "visual_prompt_en": "A person looking in a mirror at 3AM. The reflection shows a sharp, clear-eyed confident person wearing a cape labeled '我很清醒'. But the actual person behind the mirror is shown in an X-ray view: brain fuzzy, eyes droopy, thought bubbles filled with chaos symbols. Chinese text on mirror frame: '睡眠剥夺的自我认知偏差'. The mirror cracks slightly."
+    },
+    {
+      "index": 7,
+      "duration_sec": 6,
+      "narration_zh": "这就是为什么深夜下单的退货率高达40%、深夜发的消息让你第二天想删微信。",
+      "visual_prompt_en": "A calendar split: left side '03:00' shows a person clicking 'BUY' on dozens of items with hearts in their eyes; right side '09:00' shows the same person staring at a mountain of delivered packages, holding a return slip. Below, a chat interface shows a 3AM message with angry emojis, then at 9AM a hand reaching for the 'delete' button. Red percentage: '退货率 40%'."
+    },
+    {
+      "index": 8,
+      "duration_sec": 6,
+      "narration_zh": "所以，记住一条铁律：凌晨三点之后，不花钱、不表白、不辞职。先睡觉，醒了再说。",
+      "visual_prompt_en": "A warm bedroom scene at night. A nightstand with a phone face-down, a notepad with a pen laid across it, all under a soft warm lamp. A sticky note on the lamp reads '铁律: 不花钱·不表白·不辞职'. A person peacefully sleeping in bed, moon outside window. Calendar flips to morning: the same person wakes up refreshed, stretches, picks up phone with a calm smile. Golden morning light. Inspirational tone."
+    }
+  ],
+  "narration_script": "你有没有凌晨三点冲动下单、深夜发分手消息，或者半夜突然决定辞职？醒来，肠子都悔青了。\n\n这不是你意志力差——是你的前额叶皮质，在凌晨三点几乎彻底「罢工」了。\n\n前额叶是大脑的 CEO，负责理性思考、控制冲动、预判后果。但它需要充足的睡眠来「充电」。\n\n而与此同时，你的杏仁核——大脑的情绪中心——在深夜反而格外活跃，像个失去刹车的跑车。\n\n科学家用 fMRI 扫描证实：熬夜后，前额叶和杏仁核之间的连接强度下降 60%。理性，已经管不住情绪了。\n\n更可怕的是，深夜的你还觉得自己特别清醒——这叫「睡眠剥夺的自我认知偏差」。\n\n这就是为什么，深夜下单的退货率高达 40%；深夜发的消息，让你第二天想删微信。\n\n所以，记住一条铁律：凌晨三点之后，不花钱、不表白、不辞职。先睡觉，醒了再说。"
+}

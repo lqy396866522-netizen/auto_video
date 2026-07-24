@@ -60,7 +60,7 @@ cd __REPO_ROOT__
 .\.venv\Scripts\python.exe douyin-kepu-flow\content\generate_prompts.py render-guide --file douyin-kepu-flow\prompts\{slug}\prompts.json
 ```
 
-`narration_script` 规则：将 N 段 `narration_zh` 首尾相接成一段连续口播文案（无时间轴），写入 JSON 的 `narration_script` 字段，并同步生成 `narration_script.txt`。
+`narration_script` 规则：将 N 段 `narration_zh` 润色合并为口播文案（无时间轴）；**每 segment 单独成段，段间空一行（`\n\n`）**，句读准确，便于剪映断句。写入 JSON 的 `narration_script` 字段，并同步生成 `narration_script.txt`。
 
 5. 向用户展示 N 段摘要，询问：「是否开始提交到 Google Flow？」
 

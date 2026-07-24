@@ -106,10 +106,25 @@ def flow_prompt(style_prefix: str, visual: str) -> str:
     return f"{prefix}\n\n{visual}"
 
 
+def _ensure_sentence_end(text: str) -> str:
+    text = text.strip()
+    if not text:
+        return text
+    if text[-1] in "。！？；…":
+        return text
+    if text[-1] in "？」\"":
+        return text
+    return text + "。"
+
+
 def build_narration_script(segments: list[dict[str, Any]]) -> str:
-    """合并各段旁白为一段连续文案（无时间轴）。"""
-    parts = [str(seg.get("narration_zh", "")).strip() for seg in segments]
-    return "".join(p for p in parts if p)
+    """合并各段旁白为带段落换行的口播文案（每段一行/一段，便于剪映断句）。"""
+    parts: list[str] = []
+    for seg in segments:
+        chunk = str(seg.get("narration_zh", "")).strip()
+        if chunk:
+            parts.append(_ensure_sentence_end(chunk))
+    return "\n\n".join(parts)
 
 
 def render_narration_script(data: dict[str, Any]) -> str:
